@@ -1,14 +1,14 @@
-const MAX_LIFE = 100
+const MAX_LIFE = 100;
 
 class Fighter {
-  constructor(name, strength, dexterity, image) {
+  constructor(name, strength, dexterity, image, x, y) {
     this.name = name;
     this.strength = strength;
     this.dexterity = dexterity;
     this.life = MAX_LIFE;
     this.image = image;
-    this.weapon = null;
-    this.shield = null;
+    this.x = x;
+    this.y = y;
   }
 
   /**
@@ -21,26 +21,20 @@ class Fighter {
     defender.life = Math.max(defender.life - damages, 0);
   }
 
-
   /**
    * Calculate the value of the defense
    * @returns
    */
   getDamage() {
-    return this.weapon ?
-      this.strength + this.weapon.damage :
-      this.strength;
+    return this.strength;
   }
-
 
   /**
    * Calculate the value of the attack
    * @returns
    */
   getDefense() {
-    return this.shield ?
-      this.dexterity + this.shield.protection :
-      this.dexterity;
+    return this.dexterity;
   }
 
   /**
@@ -52,13 +46,44 @@ class Fighter {
     return 1 + Math.floor(Math.random() * max);
   }
 
-
   /**
-  * Check if the fighters is still alive
-  * @returns Boolean
-  */
+   * Check if the fighters is still alive
+   * @returns Boolean
+   */
   isAlive() {
-    return this.life > 0
+    return this.life > 0;
   }
 }
 
+/*Added Class Hero + Monster extended by Fighter*/
+class Hero extends Fighter {
+  constructor(name, strength, dexterity, image, x, y) {
+    super(name, strength, dexterity, image, x, y);
+    this.weapon = null;
+    this.shield = null;
+  }
+
+  /**
+   * Calculate the value of the defense
+   * @returns
+   */
+  getDamage() {
+    return this.weapon ? this.strength + this.weapon.damage : this.strength;
+  }
+
+  /**
+   * Calculate the value of the attack
+   * @returns
+   */
+  getDefense() {
+    return this.shield
+      ? this.dexterity + this.shield.protection
+      : this.dexterity;
+  }
+}
+
+class Monster extends Fighter {
+  constructor(name, strength, dexterity, image, x, y) {
+    super(name, strength, dexterity, image, x, y);
+  }
+}
